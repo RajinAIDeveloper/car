@@ -2,7 +2,7 @@
 "use client";
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, Suspense } from 'react';
 import { cars as allCarsData, getCarById } from '@/data/cars';
 import type { Car } from '@/types';
 import { CarCard } from '@/components/cars/CarCard';
@@ -12,7 +12,8 @@ import Link from 'next/link';
 import { SearchX, Info, ArrowLeft } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function SearchResultsPage() {
+// Component that uses useSearchParams - needs to be wrapped in Suspense
+function SearchResults() {
   const searchParams = useSearchParams();
   const [exactMatchCar, setExactMatchCar] = useState<Car | null | undefined>(undefined); // undefined for loading
   const [similarCars, setSimilarCars] = useState<Car[]>([]);
@@ -261,5 +262,19 @@ export default function SearchResultsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+// Main page component that wraps the SearchResults in a Suspense boundary
+export default function SearchResultsPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 py-8 text-center min-h-screen flex flex-col items-center justify-center">
+        <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-primary"></div>
+        <h1 className="text-2xl font-bold mt-6">Loading search results...</h1>
+      </div>
+    }>
+      <SearchResults />
+    </Suspense>
   );
 }
