@@ -18,7 +18,7 @@ interface WhatsAppButtonProps {
   phoneNumber?: string; // e.g., "15551234567"
 }
 
-export function WhatsAppButton({ car, phoneNumber = "1234567890" /* Default placeholder */ }: WhatsAppButtonProps) {
+export function WhatsAppButton({ car, phoneNumber = "+8801755557150" /* Default placeholder */ }: WhatsAppButtonProps) {
   const message = `Hello DriveDeals, I'm interested in the ${car.make} ${car.model} (${car.year}) priced at AED ${car.price.toLocaleString()}. I'd like to schedule a test drive or discuss the purchase.`;
 
   const handleWhatsAppClick = () => {
